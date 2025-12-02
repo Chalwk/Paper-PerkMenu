@@ -1,0 +1,99 @@
+name: PerkMenu
+version: 1.0.0
+main: com.chalwk.PerkMenu
+api-version: 1.21
+description: Permission-based perk viewing and management system
+author: Chalwk
+website: https://github.com/Chalwk
+
+commands:
+  perks:
+    description: Open your perk menu
+    usage: /<command>
+    permission: perkmenu.use
+    aliases: [ perkmenu, pm ]
+
+permissions:
+  perkmenu.*:
+    description: All PerkMenu permissions
+    children:
+      perkmenu.use: true
+      perkmenu.admin: true
+      perkmenu.category.mcmmo: true
+      perkmenu.category.jobs: true
+      perkmenu.category.cosmetics: true
+      perkmenu.perk.magnet: true
+      perkmenu.perk.autosmelt: true
+      perkmenu.perk.doubledrops: true
+      perkmenu.perk.starterkit: true
+      perkmenu.perk.vipkit: true
+      perkmenu.perk.superbreaker: true
+      perkmenu.perk.treefeller: true
+      perkmenu.perk.doublepay: true
+      perkmenu.perk.instantpay: true
+      perkmenu.perk.particletrail: true
+      perkmenu.perk.rainbowarmor: true
+
+  perkmenu.use:
+    description: Allows using the perk menu
+    default: true
+
+  perkmenu.admin:
+    description: Access to admin management commands
+    default: op
+
+  perkmenu.category.mcmmo:
+    description: Access to McMMO category
+    default: op
+
+  perkmenu.category.jobs:
+    description: Access to Jobs category
+    default: op
+
+  perkmenu.category.cosmetics:
+    description: Access to Cosmetics category
+    default: op
+
+  perkmenu.perk.magnet:
+    description: Access to Magnet perk
+    default: op
+
+  perkmenu.perk.autosmelt:
+    description: Access to Auto-Smelt perk
+    default: op
+
+  perkmenu.perk.doubledrops:
+    description: Access to Double Drops perk
+    default: op
+
+  perkmenu.perk.starterkit:
+    description: Access to Starter Kit perk
+    default: true
+
+  perkmenu.perk.vipkit:
+    description: Access to VIP Kit perk
+    default: false
+
+  perkmenu.perk.superbreaker:
+    description: Access to Super Breaker perk
+    default: op
+
+  perkmenu.perk.treefeller:
+    description: Access to Tree Feller perk
+    default: op
+
+  perkmenu.perk.doublepay:
+    description: Access to Double Pay perk
+    default: op
+
+  perkmenu.perk.instantpay:
+    description: Access to Instant Pay perk
+    default: op
+
+  perkmenu.perk.particletrail:
+    description: Access to Particle Trail perk
+    default: op
+
+  perkmenu.perk.rainbowarmor:
+    description: Access to Rainbow Armor perk
+    default: op

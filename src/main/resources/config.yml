@@ -1,0 +1,205 @@
+# GUI Settings
+gui:
+  rows: 6  # Number of rows (1-6)
+  title: "&6&lPerk Menu"
+  fill_empty: "GRAY_STAINED_GLASS_PANE"  # Material for empty slots
+  fill_empty_name: "&7"  # Name for empty slots
+
+# Navigation Items
+navigation:
+  previous:
+    material: "ARROW"
+    name: "&aPrevious Page"
+    slot: 45  # Slot number (0-53)
+  next:
+    material: "ARROW"
+    name: "&aNext Page"
+    slot: 53
+  back:
+    material: "BARRIER"
+    name: "&cBack to Categories"
+    slot: 49
+
+# Categories Configuration
+# Each category can have:
+#   display_name: Display name in GUI
+#   icon: Material for category icon
+#   description: Description shown in lore
+#   slot: Custom slot (use -1 for automatic)
+#   permission: Required permission to view category (empty for no permission)
+categories:
+  survival:
+    display_name: "&a&lSurvival"
+    icon: "GRASS_BLOCK"
+    description: "Survival-related perks"
+    slot: -1
+    permission: ""
+  kits:
+    display_name: "&b&lKits"
+    icon: "CHEST"
+    description: "Kit-based perks"
+    slot: -1
+    permission: ""
+  mcmmo:
+    display_name: "&e&lMcMMO"
+    icon: "DIAMOND_PICKAXE"
+    description: "McMMO skill perks"
+    slot: -1
+    permission: ""
+  jobs:
+    display_name: "&d&lJobs"
+    icon: "GOLD_INGOT"
+    description: "Job-related perks"
+    slot: -1
+    permission: ""
+  cosmetics:
+    display_name: "&5&lCosmetics"
+    icon: "FEATHER"
+    description: "Cosmetic perks"
+    slot: -1
+    permission: ""
+
+# Perks Configuration
+# Each perk can have:
+#   category: Category to display in
+#   permission: Required permission to see/use perk
+#   display_name: Display name in GUI
+#   description: Description shown in lore
+#   icon: Material for perk icon
+#   enabled: Whether the perk is enabled
+#   action: Optional action when clicked
+#     type: command, message, or sound
+#     value: Command to run, message to send, or sound to play
+#   cost: Indicated cost of the perk
+perks:
+  # Survival Perks
+  magnet:
+    category: "survival"
+    permission: "magnet.use"
+    display_name: "&e&lMagnet"
+    description: "Automatically picks up items around you"
+    icon: "HOPPER"
+    enabled: true
+    action:
+      type: "command"
+      value: "magnet {player}"
+      sound: "BLOCK_NOTE_BLOCK_PLING"
+    cost: 12.50
+
+  autosmelt:
+    category: "survival"
+    permission: "perkmenu.perk.autosmelt"
+    display_name: "&6&lAuto-Smelt"
+    description: "Automatically smelts ores when mined"
+    icon: "FURNACE"
+    enabled: true
+    cost: 100
+
+  double_drops:
+    category: "survival"
+    permission: "perkmenu.perk.doubledrops"
+    display_name: "&a&lDouble Drops"
+    description: "Get double drops from blocks and mobs"
+    icon: "DIAMOND"
+    enabled: true
+    cost: 0
+
+  # Kit Perks
+  starter_kit:
+    category: "kits"
+    permission: "perkmenu.perk.starterkit"
+    display_name: "&f&lStarter Kit"
+    description: "Claim your starter kit once per day"
+    icon: "WOODEN_SWORD"
+    enabled: true
+    action:
+      type: "command"
+      value: "kit starter {player}"
+      sound: "ENTITY_PLAYER_LEVELUP"
+    cost: 0
+
+  vip_kit:
+    category: "kits"
+    permission: "perkmenu.perk.vipkit"
+    display_name: "&d&lVIP Kit"
+    description: "Claim your VIP kit once per day"
+    icon: "DIAMOND_SWORD"
+    enabled: true
+    action:
+      type: "command"
+      value: "kit vip {player}"
+      sound: "ENTITY_PLAYER_LEVELUP"
+    cost: 0
+
+  # McMMO Perks
+  super_breaker:
+    category: "mcmmo"
+    permission: "perkmenu.perk.superbreaker"
+    display_name: "&c&lSuper Breaker"
+    description: "Increased mining speed and drops"
+    icon: "NETHERITE_PICKAXE"
+    enabled: true
+    action:
+      type: "message"
+      value: "&aSuper Breaker activated for 5 minutes!"
+      sound: "ENTITY_ILLUSIONER_CAST_SPELL"
+    cost: 500
+
+  tree_feller:
+    category: "mcmmo"
+    permission: "perkmenu.perk.treefeller"
+    display_name: "&2&lTree Feller"
+    description: "Chop down entire trees with one swing"
+    icon: "NETHERITE_AXE"
+    enabled: true
+    cost: 0
+
+  # Jobs Perks
+  double_pay:
+    category: "jobs"
+    permission: "perkmenu.perk.doublepay"
+    display_name: "&6&lDouble Pay"
+    description: "Earn double money from jobs"
+    icon: "GOLD_NUGGET"
+    enabled: true
+    action:
+      type: "message"
+      value: "&aDouble Pay active for 1 hour!"
+      sound: "ENTITY_EXPERIENCE_ORB_PICKUP"
+    cost: 1000
+
+  instant_pay:
+    category: "jobs"
+    permission: "perkmenu.perk.instantpay"
+    display_name: "&e&lInstant Pay"
+    description: "Get paid instantly for job actions"
+    icon: "GOLD_INGOT"
+    enabled: true
+    cost: 0
+
+  # Cosmetic Perks
+  particle_trail:
+    category: "cosmetics"
+    permission: "perkmenu.perk.particletrail"
+    display_name: "&d&lParticle Trail"
+    description: "Leave a trail of particles behind you"
+    icon: "REDSTONE"
+    enabled: true
+    action:
+      type: "command"
+      value: "trail particles {player}"
+      sound: "BLOCK_ENCHANTMENT_TABLE_USE"
+    cost: 0
+
+  rainbow_armor:
+    category: "cosmetics"
+    permission: "perkmenu.perk.rainbowarmor"
+    display_name: "&a&lRainbow Armor"
+    description: "Your armor cycles through rainbow colors"
+    icon: "LEATHER_CHESTPLATE"
+    enabled: true
+    action:
+      type: "command"
+      value: "rainbowarmor toggle {player}"
+      sound: "ENTITY_ILLUSIONER_MIRROR_MOVE"
+    cost: 0
