@@ -12,9 +12,7 @@ players to view and interact with their available perks organized by categories.
 - **Fully Customizable GUI**: Configurable rows, layouts, colors, and navigation
 - **Paginated Display**: Automatic pagination for categories with many perks
 - **Interactive Perks**: Click on perks to activate commands, messages, or sounds
-- **Visual Polish**: Clean interface with hover descriptions and color-coded categories
 - **Admin Controls**: Reload configuration and manage permissions
-- **Empty Slot Management**: Fill empty slots with decorative glass panes
 
 ## Commands
 
