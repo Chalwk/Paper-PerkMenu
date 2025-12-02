@@ -115,10 +115,22 @@ public class PerkManager {
         for (int i = startIndex; i < endIndex; i++) {
             Map<String, Object> perkData = perks.get(i);
 
-            String permission = (String) perkData.get("permission");
-            if (!player.hasPermission(permission)) {
-                continue;
+            Object permissionObj = perkData.get("permission");
+            boolean hasPermission = false;
+
+            if (permissionObj instanceof List<?>) {
+                hasPermission = true;
+                for (Object obj : (List<?>) permissionObj) {
+                    if (!(obj instanceof String) || !player.hasPermission((String) obj)) {
+                        hasPermission = false;
+                        break;
+                    }
+                }
+            } else if (permissionObj instanceof String) {
+                hasPermission = player.hasPermission((String) permissionObj);
             }
+
+            if (!hasPermission) continue;
 
             Material material = (Material) perkData.get("material");
             String displayName = (String) perkData.get("display_name");
@@ -133,6 +145,19 @@ public class PerkManager {
             int cost = (int) perkData.get("cost");
             if (cost > 0) {
                 lore.add("&6Cost: &f$" + cost);
+            }
+
+            // Show required permissions if multiple
+            if (permissionObj instanceof List<?> permList) {
+                if (permList.size() > 1) {
+                    lore.add("&6Required Permissions:");
+                    for (Object obj : permList) {
+                        if (obj instanceof String) {
+                            lore.add("&7- &e" + obj);
+                        }
+                    }
+                    lore.add("");
+                }
             }
 
             lore.add("");
@@ -207,8 +232,22 @@ public class PerkManager {
 
         if (perkData == null) return;
 
-        String permission = (String) perkData.get("permission");
-        if (!player.hasPermission(permission)) {
+        Object permissionObj = perkData.get("permission");
+        boolean hasPermission = false;
+
+        if (permissionObj instanceof List<?>) {
+            hasPermission = true;
+            for (Object obj : (List<?>) permissionObj) {
+                if (!(obj instanceof String) || !player.hasPermission((String) obj)) {
+                    hasPermission = false;
+                    break;
+                }
+            }
+        } else if (permissionObj instanceof String) {
+            hasPermission = player.hasPermission((String) permissionObj);
+        }
+
+        if (!hasPermission) {
             MessageHelper.sendMessage(player, "&cYou don't have permission for this perk!");
             return;
         }

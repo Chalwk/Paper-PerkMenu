@@ -1,8 +1,8 @@
 package com.chalwk.listeners;
 
-import com.chalwk.managers.PerkManager;
 import com.chalwk.PerkMenu;
 import com.chalwk.config.PerkConfig;
+import com.chalwk.managers.PerkManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
@@ -28,7 +28,6 @@ public record PerkMenuListener(PerkMenu plugin) implements Listener {
         ItemStack clickedItem = event.getCurrentItem();
         if (clickedItem == null || clickedItem.getType() == Material.AIR) return;
 
-        // Get inventory title
         Component titleComponent = event.getView().title();
         String title = LegacyComponentSerializer.legacySection().serialize(titleComponent);
 
@@ -47,45 +46,47 @@ public record PerkMenuListener(PerkMenu plugin) implements Listener {
         PerkManager perkManager = plugin.getPerkManager();
         PerkConfig config = plugin.getConfigManager().getConfig();
 
-        // Check if it's a navigation item
         String backName = config.getNavigationName("back");
         String prevName = config.getNavigationName("previous");
         String nextName = config.getNavigationName("next");
 
-        if (displayName.contains(backName)) {
+        String strippedDisplayName = stripColor(displayName);
+        String strippedBackName = stripColor(backName);
+        String strippedPrevName = stripColor(prevName);
+        String strippedNextName = stripColor(nextName);
+
+        if (strippedDisplayName.equals(strippedBackName)) {
             perkManager.openCategoryMenu(player);
             return;
         }
 
-        if (displayName.contains(prevName)) {
+        if (strippedDisplayName.equals(strippedPrevName)) {
             String category = perkManager.getViewingCategory(playerId);
             int currentPage = perkManager.getCurrentPage(playerId);
             perkManager.openPerkMenu(player, category, currentPage - 1);
             return;
         }
 
-        if (displayName.contains(nextName)) {
+        if (strippedDisplayName.equals(strippedNextName)) {
             String category = perkManager.getViewingCategory(playerId);
             int currentPage = perkManager.getCurrentPage(playerId);
             perkManager.openPerkMenu(player, category, currentPage + 1);
             return;
         }
 
-        // Check if it's a category item
         Map<String, List<String>> categories = config.getCategories();
         for (Map.Entry<String, List<String>> entry : categories.entrySet()) {
-            String categoryName = entry.getValue().getFirst();
-            if (displayName.contains(stripColor(categoryName))) {
+            String categoryName = entry.getValue().get(0);
+            if (stripColor(displayName).equals(stripColor(categoryName))) {
                 perkManager.openPerkMenu(player, entry.getKey(), 1);
                 return;
             }
         }
 
-        // Check if it's a perk item
         Map<String, Map<String, Object>> perks = config.getPerks();
         for (Map.Entry<String, Map<String, Object>> entry : perks.entrySet()) {
             String perkName = (String) entry.getValue().get("display_name");
-            if (displayName.contains(stripColor(perkName))) {
+            if (stripColor(displayName).equals(stripColor(perkName))) {
                 perkManager.handlePerkClick(player, entry.getKey());
                 return;
             }

@@ -8,11 +8,21 @@ players to view and interact with their available perks organized by categories.
 ## Features
 
 - **Multi-Category System**: Organize perks into categories like Survival, Kits, McMMO, Jobs, and Cosmetics
-- **Permission-Based Access**: Each perk and category can have individual permission requirements
+- **Advanced Permission System**: Support for both single permission and multiple permission requirements
 - **Fully Customizable GUI**: Configurable rows, layouts, colors, and navigation
 - **Paginated Display**: Automatic pagination for categories with many perks
 - **Interactive Perks**: Click on perks to activate commands, messages, or sounds
 - **Admin Controls**: Reload configuration and manage permissions
+- **Back Button Navigation**: Fixed navigation for returning to category menu
+
+## Recent Updates
+
+### Version 1.0.0
+
+- **Fixed Back Button**: Back button now correctly returns to categories menu
+- **Multiple Permission Support**: Perks can now require multiple permissions (AND logic - player must have ALL
+  specified permissions)
+- **Enhanced Permission Display**: When a perk has multiple permissions, they are shown in the perk description
 
 ## Commands
 
@@ -57,11 +67,12 @@ The PerkMenu interface is designed for intuitive navigation:
 
 1. **Category Selection**: First view shows available categories
 2. **Category Click**: Click a category to view its perks
-3. **Perk Display**: Perks appear only if you have the required permission
+3. **Perk Display**: Perks appear only if you have the required permission(s)
 4. **Navigation Controls**:
     - **Previous/Next Arrows**: Navigate between pages of perks
-    - **Back Button**: Return to category selection
+    - **Back Button**: Return to category selection (fixed in latest version)
     - **Hover Descriptions**: View detailed perk information by hovering
+5. **Permission Indicators**: Perks requiring multiple permissions show their requirements in the description
 
 ## Configuration
 
@@ -123,6 +134,7 @@ categories:
 
 ```yaml
 perks:
+  # Single permission
   magnet:
     category: "survival"
     permission: "perkmenu.perk.magnet"
@@ -134,7 +146,24 @@ perks:
       type: "command"  # command, message, or sound
       value: "mag give {player}"
       sound: "BLOCK_NOTE_BLOCK_PLING"
-    cost: 0  # Cost to activate (future feature)
+    cost: 0
+
+  # Multiple permissions (NEW FEATURE)
+  some_perk:
+    category: "some_category"
+    permission:
+      - some1.perm
+      - some2.perm
+      - some3.perm
+    display_name: "&e&lSpecial Perk"
+    description: "Requires multiple permissions"
+    icon: "DIAMOND"
+    enabled: true
+    action:
+      type: "command"
+      value: "somecommand {player}"
+      sound: "BLOCK_NOTE_BLOCK_PLING"
+    cost: 0
 
   autosmelt:
     category: "survival"
@@ -175,6 +204,58 @@ Perks can perform different actions when clicked:
      value: "ENTITY_PLAYER_LEVELUP"
    ```
 
+## Multiple Permission Requirements
+
+### New Feature: Multiple Permissions per Perk
+
+Perks can now require multiple permissions using YAML list syntax:
+
+```yaml
+premium_perk:
+  category: "survival"
+  permission:
+    - premium.rank
+    - perk.premium.access
+    - world.survival
+  display_name: "&6&lPremium Feature"
+  description: "Exclusive premium feature with multiple requirements"
+  icon: "NETHER_STAR"
+  enabled: true
+  action:
+    type: "command"
+    value: "give {player} diamond 64"
+```
+
+### How It Works
+
+1. **AND Logic**: Player must have **ALL** permissions listed to see and use the perk
+2. **Visual Feedback**: Required permissions are displayed in the perk's lore
+3. **Backward Compatibility**: Single string permissions still work as before
+4. **Empty Permission**: If permission is empty string or omitted, no permission is required
+
+### Example Use Cases
+
+```yaml
+# Perk requiring both a rank and a specific world
+world_specific_perk:
+  permission:
+    - rank.vip
+    - world.nether
+
+# Perk requiring multiple skill permissions
+advanced_perk:
+  permission:
+    - skill.mining.expert
+    - skill.combat.master
+    - level.50
+
+# Perk requiring both plugin permissions
+cross_plugin_perk:
+  permission:
+    - jobs.repairman
+    - mcmmo.super_breaker
+```
+
 ## Usage Examples
 
 ### Basic Usage
@@ -188,7 +269,7 @@ Perks can perform different actions when clicked:
 - View available survival perks
 - Click "Magnet" to activate it
 - Use arrows to navigate pages
-- Click "Back" to return to categories
+- Click "Back" to return to categories (now fixed!)
 
 # Alternative command
 /pm
@@ -219,6 +300,24 @@ my_new_perk:
   action:
     type: "command"
     value: "mycommand {player}"
+```
+
+For perks requiring multiple permissions:
+
+```yaml
+my_multi_perk:
+  category: "survival"
+  permission:
+    - permission.one
+    - permission.two
+    - permission.three
+  display_name: "&d&lMulti-Permission Perk"
+  description: "This perk requires three permissions"
+  icon: "NETHER_STAR"
+  enabled: true
+  action:
+    type: "command"
+    value: "multicommand {player}"
 ```
 
 ## Building the Plugin
@@ -301,6 +400,22 @@ Use Minecraft color codes (&) in display names and descriptions:
 - `&o` - *Italic*
 - `&k` - Obfuscated
 
+## Troubleshooting
+
+### Common Issues
+
+1. **Back button not working**: Ensure you have the latest version (1.0.1+)
+2. **Multiple permissions not working**: Check YAML syntax - permissions must be a list with `-` bullet points
+3. **Perk not showing**: Verify the player has ALL required permissions for multi-permission perks
+4. **GUI not opening**: Check console for errors and ensure `perkmenu.use` permission is set
+
+### Debug Tips
+
+- Use `/perks reload` after configuration changes
+- Check server console for loading errors
+- Verify YAML indentation is correct
+- Test permissions individually before combining them
+
 ## License
 
-Licensed under the [MIT License](LICENSE).
+Licensed under the [MIT License](LICENSE)

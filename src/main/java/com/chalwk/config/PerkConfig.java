@@ -55,23 +55,27 @@ public class PerkConfig {
                 if (perkSection != null) {
                     Map<String, Object> perkData = new HashMap<>();
                     perkData.put("category", perkSection.getString("category", "general"));
-                    perkData.put("permission", perkSection.getString("permission", "perkmenu.perk." + perkId));
+
+                    Object permissionObj = perkSection.get("permission");
+                    if (permissionObj instanceof List) {
+                        perkData.put("permission", permissionObj);
+                    } else {
+                        String permission = perkSection.getString("permission", "perkmenu.perk." + perkId);
+                        perkData.put("permission", Collections.singletonList(permission));
+                    }
+
                     perkData.put("display_name", perkSection.getString("display_name", perkId));
                     perkData.put("description", perkSection.getString("description", ""));
                     perkData.put("icon", perkSection.getString("icon", "PAPER"));
                     perkData.put("material", Material.valueOf(perkSection.getString("icon", "PAPER")));
                     perkData.put("enabled", perkSection.getBoolean("enabled", true));
 
-                    // Optional click actions
                     if (perkSection.contains("action")) {
                         perkData.put("action_type", perkSection.getString("action.type", "message"));
                         perkData.put("action_value", perkSection.getString("action.value", ""));
                         perkData.put("action_sound", perkSection.getString("action.sound", "BLOCK_NOTE_BLOCK_PLING"));
                     }
-
-                    // Future features placeholders
                     perkData.put("cost", perkSection.getInt("cost", 0));
-
                     perks.put(perkId, perkData);
                 }
             }
